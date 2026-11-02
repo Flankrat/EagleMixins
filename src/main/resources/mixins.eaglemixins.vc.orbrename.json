@@ -1,0 +1,14 @@
+{
+  "required": true,
+  "package": "eaglemixins.mixin.vc",
+  "refmap": "mixins.eaglemixins.refmap.json",
+  "compatibilityLevel": "JAVA_8",
+  "target": "@env(DEFAULT)",
+  "minVersion": "0.8",
+  "mixins": [
+    "ItemOrb_DisplayNameMixin"
+  ],
+  "injectors": {
+    "maxShiftBy": 10
+  }
+}

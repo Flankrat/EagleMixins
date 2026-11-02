@@ -46,6 +46,13 @@ public class MixinToggleConfig {
     @MixinConfig.CompatHandling(modid = "bettercombatmod", desired = true, reason = "Requires RLCombat to properly function")
     public boolean stopDisarming = true;
 
+    @Config.Comment("Renames Varied Commodities Orbs to optionally use metadata based display name lang key: \"rldregora.variedcommodities:orb:<metadata>.name\"")
+    @Config.Name("Rename Orbs (VC)")
+    @Config.RequiresMcRestart
+    @MixinConfig.MixinToggle(lateMixin = "mixins.eaglemixins.vc.orbrename.json", defaultValue = true)
+    @MixinConfig.CompatHandling(modid = "variedcommodities", desired = true, reason = "Requires mod to properly function")
+    public boolean renameOrb = true;
+
     @Config.Comment("Renames Varied Commodities Ruby to gem_ruby_vc to avoid mix-ups.")
     @Config.Name("Rename Ruby (VC)")
     @Config.RequiresMcRestart
