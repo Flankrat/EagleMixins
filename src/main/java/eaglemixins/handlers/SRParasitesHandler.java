@@ -233,6 +233,9 @@ public class SRParasitesHandler {
         //Only for Parasites
         if(!(entity instanceof EntityParasiteBase)) return;
 
+        //Only in the configured dimensions
+        if (!ForgeConfigHandler.srparasites.isReplacementDropDimension(entity.dimension)) return;
+
         //But not to ones that have special names
         if (entity.hasCustomName() &&
                 ForgeConfigHandler.srparasites.keepLootNames.stream().anyMatch(entity.getName()::contains))

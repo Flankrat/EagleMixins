@@ -112,6 +112,13 @@ public class SRParasiteConfig {
     public float replacementDropChance = 0.375f;
 
     @Config.Comment({
+            "Dimension IDs in which \"Modify Parasite Loot\" applies",
+            "Leave epmty to disable the everywhere."
+    })
+    @Config.Name("Parasite Drop Replacement Dimensions")
+    public int[] replacementDropDimensions = {0};
+
+    @Config.Comment({
             "Item that replaces parasite drops in the overworld (see \"Parasite Replacement Drop Chance\").",
             "Format: modid:item or modid:item metadata (e.g. \"minecraft:dye 15\").",
             "Defaults to Wardlights' Tainted Flesh. Falls back to air (nothing drops) if the item can't be found."
@@ -126,6 +133,10 @@ public class SRParasiteConfig {
     })
     @Config.Name("Parasite Replacement Drop Name")
     public String replacementDropName = "";
+
+    public boolean isReplacementDropDimension(int dimensionId) {
+        return Arrays.stream(replacementDropDimensions).anyMatch(dim -> dim == dimensionId);
+    }
 
     private ItemStack replacementDrop = null;
     public ItemStack getReplacementDrop() {
