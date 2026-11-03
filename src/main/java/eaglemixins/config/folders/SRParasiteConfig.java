@@ -72,6 +72,14 @@ public class SRParasiteConfig {
         public float carapaceRecoverPerTick = 0.1F;
 
         @Config.Comment({
+                "If true, a parasite whose carapace is ever fully depleted never regenerates it again.",
+                "If false, a depleted carapace regenerates normally (see \"Carapace Recovery Per Tick\")."
+        })
+        @Config.Name("Depleted Carapace Stays Broken")
+        @Order(7)
+        public boolean carapaceBreaksPermanently = false;
+
+        @Config.Comment({
                 "Maximum carapace budget of a parasite as a multiple of its max health.",
                 "The budget is the total amount of damage the carapace can absorb before it is worn down.",
                 "Example: a 300 damage hit reduced to 100 drains 200 from the budget.",
@@ -81,7 +89,7 @@ public class SRParasiteConfig {
         })
         @Config.Name("Carapace Max Health Multiplier")
         @Config.RangeDouble(min = 0)
-        @Order(7)
+        @Order(8)
         public float carapaceHealthMultiplier = 1.0F;
 
         @Config.Comment({
@@ -90,7 +98,7 @@ public class SRParasiteConfig {
                 "Example: sim_human"
         })
         @Config.Name("Carapace Mob Blacklist")
-        @Order(8)
+        @Order(9)
         public ArrayList<String> carapaceMobBlacklist = new ArrayList<>(Arrays.asList(
                 "buglin",
                 "rupter",
@@ -130,7 +138,7 @@ public class SRParasiteConfig {
                 "Format: modid:item or modid:item metadata."
         })
         @Config.Name("Carapace Bar Icon")
-        @Order(9)
+        @Order(10)
         public String barIcon = "srparasites:vile_shell";
 
         @Config.Comment({
@@ -140,7 +148,7 @@ public class SRParasiteConfig {
         })
         @Config.Name("Carapace Bar Full Draw Width Amount")
         @Config.RangeDouble(min = 1)
-        @Order(10)
+        @Order(11)
         public float barFullWidthAmount = 200;
     }
 

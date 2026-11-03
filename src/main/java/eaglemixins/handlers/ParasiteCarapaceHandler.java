@@ -25,10 +25,11 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
  */
 public class ParasiteCarapaceHandler {
     private static final String SRP_NAMESPACE = "srparasites";
-    // Stored in ForgeData -> EagleMixinsCarapace -> Amount & Time
+    // Stored in ForgeData -> EagleMixinsCarapace -> Amount, Time & Broken
     private static final String KEY_CARAPACE = "EagleMixinsCarapace";
     private static final String KEY_AMOUNT = "Amount";
     private static final String KEY_TIME = "Time";
+    private static final String KEY_BROKEN = "Broken";
 
     @SubscribeEvent(priority = EventPriority.LOWEST)
     public static void onLivingDamage(LivingDamageEvent event) {
@@ -52,7 +53,8 @@ public class ParasiteCarapaceHandler {
         NBTTagCompound data = getOrCreateCarapaceData(target);
         data.setFloat(KEY_AMOUNT, budget - reduction);
         data.setLong(KEY_TIME, target.world.getTotalWorldTime());
-        PacketHandler.sendToAllTracking(new PacketSyncCarapace(target.getEntityId(), budget - reduction, maxBudget, config.carapaceRecoverPerTick), target);
+        if (budget - reduction <= 0) data.setBoolean(KEY_BROKEN, true);
+        PacketHandler.sendToAllTracking(new PacketSyncCarapace(target.getEntityId(), budget - reduction, maxBudget, getRecoveryRate(target, config)), target);
     }
 
     // Players that start seeing a parasite need its current carapace for the Neat bar
@@ -66,7 +68,13 @@ public class ParasiteCarapaceHandler {
         if (maxBudget <= 0) return;
 
         float budget = getCurrentBudget(target, maxBudget, config);
-        PacketHandler.sendTo(new PacketSyncCarapace(target.getEntityId(), budget, maxBudget, config.carapaceRecoverPerTick), (EntityPlayerMP) event.getEntityPlayer());
+        PacketHandler.sendTo(new PacketSyncCarapace(target.getEntityId(), budget, maxBudget, getRecoveryRate(target, config)), (EntityPlayerMP) event.getEntityPlayer());
+    }
+
+    // A carapace that was fully depleted once never recovers if "Depleted Carapace Stays Broken" is enabled
+    private static float getRecoveryRate(Entity entity, SRParasiteConfig.CarapaceConfig config) {
+        if (config.carapaceBreaksPermanently && getCarapaceData(entity).getBoolean(KEY_BROKEN)) return 0;
+        return config.carapaceRecoverPerTick;
     }
 
     // Lazy regeneration: recover based on ticks since the last hit instead of ticking every parasite
@@ -75,7 +83,7 @@ public class ParasiteCarapaceHandler {
         float budget = data.hasKey(KEY_AMOUNT) ? data.getFloat(KEY_AMOUNT) : maxBudget;
         if (data.hasKey(KEY_TIME)) {
             long elapsed = Math.max(0, entity.world.getTotalWorldTime() - data.getLong(KEY_TIME));
-            budget = budget + elapsed * config.carapaceRecoverPerTick;
+            budget = budget + elapsed * getRecoveryRate(entity, config);
         }
         return Math.min(maxBudget, budget);
     }
