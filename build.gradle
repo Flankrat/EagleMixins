@@ -24,7 +24,7 @@ minecraft {
             args "--username=NLBlackEagle"
 
             jvmArg "-Dfml.coreMods.load=${mixin_loader_class}"
-            jvmArg "-Dmixin.hotSwap=true"
+//            jvmArg "-Dmixin.hotSwap=true"
             jvmArg "-Dmixin.debug.export=true"
 
             workingDirectory project.file('run')
@@ -36,7 +36,7 @@ minecraft {
         server {
 
             jvmArg "-Dfml.coreMods.load=${mixin_loader_class}"
-            jvmArg "-Dmixin.hotSwap=true"
+//            jvmArg "-Dmixin.hotSwap=true"
             jvmArg "-Dmixin.debug.export=true"
 
             workingDirectory project.file('run')
