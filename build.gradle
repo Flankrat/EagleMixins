@@ -103,6 +103,7 @@ dependencies {
     compileOnly fg.deobf("curse.maven:fantastic-lib-${fantasticlib_version}")
     compileOnly fg.deobf("curse.maven:dynamicsurroundings-${dynamicsurroundings_version}")
     compileOnly fg.deobf("curse.maven:forgotten-items-${forgottenitems_version}")
+    compileOnly fg.deobf("curse.maven:neat-${neat_version}")
 
     compileOnly fg.deobf("CraftTweaker2:CraftTweaker2-${crafttweaker_version}")
     compileOnly fg.deobf("CraftTweaker2:ZenScript:${zs_version}")

@@ -1,15 +1,148 @@
 package eaglemixins.config.folders;
 
 import eaglemixins.EagleMixins;
+import meldexun.betterconfig.api.Order;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.config.Config;
 
-import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.*;
 
 public class SRParasiteConfig {
+
+    @Config.Comment("Gives parasites a hardened carapace that absorbs part of heavy hits until it is worn down.")
+    @Config.Name("Carapace")
+    public CarapaceConfig carapace = new CarapaceConfig();
+
+    public static class CarapaceConfig {
+        @Config.Comment({
+                "Enables the Carapace for parasites.",
+                "Parasites (except those in \"Carapace Mob Blacklist\") take reduced damage from heavy hits.",
+                "Every point of damage the carapace absorbs is drained from its budget, which slowly regenerates.",
+                "Once the budget is empty, hits go through unreduced until it has regenerated."
+        })
+        @Config.Name("Enabled")
+        @Config.RequiresMcRestart
+        @Order(0)
+        public boolean enabled = true;
+
+        @Config.Comment("Hits at or below this damage are divided by \"Min Divisor\".")
+        @Config.Name("Min Damage Threshold")
+        @Config.RangeDouble(min = 0)
+        @Order(1)
+        public float minDmgThreshold = 20;
+
+        @Config.Comment({
+                "Hits at or above this damage are divided by \"Max Divisor\".",
+                "Between the two thresholds the divisor scales linearly from \"Min Divisor\" to \"Max Divisor\"."
+        })
+        @Config.Name("Max Damage Threshold")
+        @Config.RangeDouble(min = 0)
+        @Order(2)
+        public float maxDmgThreshold = 300;
+
+        @Config.Comment("Damage divisor applied at the \"Min Damage Threshold\" and below. 1 means no reduction.")
+        @Config.Name("Min Divisor")
+        @Config.RangeDouble(min = 1)
+        @Order(3)
+        public float minDivisor = 1;
+
+        @Config.Comment("Damage divisor applied at the \"Max Damage Threshold\" and above. 3 means the hit deals a third of its damage.")
+        @Config.Name("Max Divisor")
+        @Config.RangeDouble(min = 1)
+        @Order(4)
+        public float maxDivisor = 3;
+
+        @Config.Comment({
+                "If true, only direct melee hits (from any attacker) are reduced.",
+                "If false, all damage is reduced, including projectiles, magic and environmental damage."
+        })
+        @Config.Name("Only Melee")
+        @Order(5)
+        public boolean onlyMelee = true;
+
+        @Config.Comment({
+                "Carapace budget regenerated per tick (20 ticks per second), up to the mob's maximum.",
+                "Example: 1 means a mob regains 20 budget per second."
+        })
+        @Config.Name("Carapace Recovery Per Tick")
+        @Config.RangeDouble(min = 0)
+        @Order(6)
+        public float carapaceRecoverPerTick = 0.1F;
+
+        @Config.Comment({
+                "Maximum carapace budget of a parasite as a multiple of its max health.",
+                "The budget is the total amount of damage the carapace can absorb before it is worn down.",
+                "Example: a 300 damage hit reduced to 100 drains 200 from the budget.",
+                "If the remaining budget is smaller than the reduction, only the remaining budget is absorbed.",
+                "A multiplier above Max Divisor - 1 (so with default cfgs 2x) doesn't make much sense, as it would almost never break before the parasite dies (disregarding healing).",
+                "Example: 1.5 on a parasite with 100 max health gives it 150 carapace. 0 disables the carapace."
+        })
+        @Config.Name("Carapace Max Health Multiplier")
+        @Config.RangeDouble(min = 0)
+        @Order(7)
+        public float carapaceHealthMultiplier = 1.0F;
+
+        @Config.Comment({
+                "Parasites that never get a carapace.",
+                "Only srparasites mobs can have a carapace, so entries are written without the \"srparasites:\" prefix.",
+                "Example: sim_human"
+        })
+        @Config.Name("Carapace Mob Blacklist")
+        @Order(8)
+        public ArrayList<String> carapaceMobBlacklist = new ArrayList<>(Arrays.asList(
+                "buglin",
+                "rupter",
+                "worker",
+                "tendril",
+                "wave",
+                "waveshock",
+                "biomass",
+                "sim_villagerhead",
+                "sim_cowhead",
+                "sim_wolfhead",
+                "sim_sheephead",
+                "sim_pighead",
+                "sim_humanhead",
+                "sim_horsehead",
+                "sim_endermanhead",
+                "sim_adventurerhead",
+                "hi_golem",
+                "sim_villager",
+                "sim_cow",
+                "sim_wolf",
+                "sim_sheep",
+                "sim_pig",
+                "sim_human",
+                "sim_horse",
+                "sim_enderman",
+                "sim_adventurer",
+                "sim_bear",
+                "sim_dragone",
+                "sim_dragonehead",
+                "sim_squid"
+        ));
+
+        @Config.Comment({
+                "Item whose texture is used as icon next to the carapace bar below the Neat health bar.",
+                "Client-side. Requires the \"Carapace Bar (Neat/SRParasites)\" mixin toggle.",
+                "Format: modid:item or modid:item metadata."
+        })
+        @Config.Name("Carapace Bar Icon")
+        @Order(9)
+        public String barIcon = "srparasites:vile_shell";
+
+        @Config.Comment({
+                "Max carapace amount at which the carapace bar is drawn at full width (half the health bar width).",
+                "Parasites with less max carapace get a proportionally shorter bar, parasites with more are drawn at full width.",
+                "Client-side. Requires the \"Carapace Bar (Neat/SRParasites)\" mixin toggle."
+        })
+        @Config.Name("Carapace Bar Full Draw Width Amount")
+        @Config.RangeDouble(min = 1)
+        @Order(10)
+        public float barFullWidthAmount = 200;
+    }
 
     @Config.Comment("Treat the allowed biomes list as whitelist. Set to false to treat as blacklist")
     @Config.Name("SRParasites allowed biomes is whitelist")

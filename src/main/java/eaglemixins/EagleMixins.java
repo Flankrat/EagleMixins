@@ -99,6 +99,7 @@ public class EagleMixins {
         if(ForgeConfigHandler.mixintoggles.customSRPGearEvolution) registerIfModsPresent(new String[]{"srparasites", "charm", "srpmixins"}, SentientWeaponEvolutionHandler.class);
         if(ForgeConfigHandler.mixintoggles.enableSpartanTwoHandedBuff) registerIfModsPresent(new String[]{"spartanweaponry"}, SpartanTwoHandedBuffHandler.class);
         registerIfModsPresent(new String[]{"srparasites", "biomesoplenty"}, SRParasitesHandler.class);
+        if(ForgeConfigHandler.srparasites.carapace.enabled) registerIfModsPresent(new String[]{"srparasites"}, ParasiteCarapaceHandler.class);
 
         MinecraftForge.EVENT_BUS.register(PotionRadiationFatigueHandler.class);
         MinecraftForge.EVENT_BUS.register(RadiationPotionBlockHandler.class);

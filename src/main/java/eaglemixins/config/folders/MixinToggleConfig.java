@@ -478,4 +478,12 @@ public class MixinToggleConfig {
     @MixinConfig.MixinToggle(lateMixin = "mixins.eaglemixins.setbonus.effectremoval.json", defaultValue = true)
     @MixinConfig.CompatHandling(modid = "setbonus", desired = true, reason = "Tweak for SetBonus requires SetBonus to apply.")
     public boolean removeSetBonusEffectsCorrectly = true;
+
+    @Config.Comment("Shows the remaining carapace of parasites as a small bar below the Neat health bar.")
+    @Config.Name("Carapace Bar (Neat/SRParasites)")
+    @Config.RequiresMcRestart
+    @MixinConfig.MixinToggle(lateMixin = "mixins.eaglemixins.neat.carapacebar.json", defaultValue = true)
+    @MixinConfig.CompatHandling(modid = "neat", desired = true, reason = "Optional compat with Neat", warnIngame = false)
+    @MixinConfig.CompatHandling(modid = "srparasites", desired = true, reason = "Optional compat with Neat for SRP carapace", warnIngame = false)
+    public boolean neatCarapaceBar = true;
 }
