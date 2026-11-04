@@ -126,6 +126,16 @@ public class MixinToggleConfig {
     @MixinConfig.CompatHandling(modid = "potioncore", desired = true, reason = "Requires mod to properly function")
     public boolean punishAbyssalTeleportation = true;
 
+    @Config.Comment({
+            "Also blocks the effects listed in Server Options > Bauble Potion Immunities when they are applied instantly",
+            "(drinking, splash and lingering potions). Without this, only non-instant applications are blocked."
+    })
+    @Config.Name("Bauble Potion Immunity For Instant Potions (Vanilla)")
+    @Config.RequiresMcRestart
+    @MixinConfig.MixinToggle(earlyMixin = "mixins.eaglemixins.vanilla.baublepotionimmunity.json", defaultValue = true)
+    @MixinConfig.CompatHandling(modid = "baubles", desired = true, reason = "Requires mod to properly function")
+    public boolean baublePotionImmunityInstant = true;
+
     @Config.Comment("Compared to SRPs system, this will only count parasite kills, distribute the killed mobs HP over the equipped SRP living gear and also evolve living bows and living armor.")
     @Config.Name("Custom Living Gear Evolution (SRP)")
     @Config.RequiresMcRestart

@@ -35,8 +35,8 @@ import java.util.Set;
  *    PotionApplicableEvent, which Forge fires before the effect is added, so it never ticks
  *    and is never synced to the client.
  *  - Instant applications (drinking, splash, lingering) skip that event; they are covered by
- *    the existing Potion.affectEntity redirects in ItemPotionMixin, EntityPotionMixin and
- *    EntityAreaEffectCloudMixin, which call isImmune(...) first.
+ *    the mixins in eaglemixins.mixin.vanilla.baublepotionimmunity (@WrapWithCondition on
+ *    Potion.affectEntity), behind the "Bauble Potion Immunity For Instant Potions" mixin toggle.
  *  - Effects that were already active when the bauble was put on are removed at the start of
  *    the player tick (before updatePotionEffects), if "Bauble Immunity Removes Active Effects" is on.
  *

@@ -306,7 +306,7 @@ public class ForgeConfigHandler {
 		@Config.Comment({
 				"Baubles that make the wearer immune to the listed potion effects.",
 				"Blocked effects are never applied: they are denied before being added, so they never tick, not even once.",
-				"Instant applications (drinking, splash, lingering) are blocked through the \"Prevent Abyssal Teleportation (Vanilla/Trinkets)\" mixin toggle.",
+				"Instant applications (drinking, splash, lingering) require the \"Bauble Potion Immunity For Instant Potions (Vanilla)\" mixin toggle.",
 				"Requires Baubles.",
 				"Format: <bauble item id> { <potion id> ... }"
 		})
