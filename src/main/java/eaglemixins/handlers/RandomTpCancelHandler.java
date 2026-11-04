@@ -119,6 +119,8 @@ public class RandomTpCancelHandler {
             tpPotions = new HashSet<>();
             for (String potionString : ForgeConfigHandler.abyssal.randomTpPots) {
                 if(!potionString.contains(":")) continue;
+                //Surface Teleport is the punishment itself, counting it would punish in a loop
+                if(potionString.trim().equals(SURFACE_TP_POTION)) continue;
                 ResourceLocation location = new ResourceLocation(potionString);
                 if (ForgeRegistries.POTIONS.containsKey(location))
                     tpPotions.add(ForgeRegistries.POTIONS.getValue(location));
@@ -135,26 +137,22 @@ public class RandomTpCancelHandler {
     }
 
     private static List<Potion> tpCooldownPotions = null;
+    private static final String SURFACE_TP_POTION = "potioncore:teleport_surface";
     private static final List<String> tpCooldownPotionStrings = new ArrayList<>(Arrays.asList(
             "potioncore:potion_sickness",
-            "potioncore:teleport_surface"
+            SURFACE_TP_POTION
     ));
     private static final String tpCooldownKey = "TeleportCooldown";
 
+    /**
+     * Punishes every listed teleport in the Abyssal Rift / Abyssal Gate.
+     * There used to be a 5 second window after each punishment (plus a free first teleport) where
+     * teleports went unpunished. It stopped the old onEnderTeleport handler from re-punishing the
+     * Surface Teleport (which fires an EnderTeleportEvent); that handler is gone, and the window let
+     * players spam teleports (Ender Queen's Crown, chorus fruit, teleport potions) into brutal towers.
+     */
     public static void applyTpCooldownDebuffs(EntityPlayer player) {
-        if (!player.getEntityData().hasKey(tpCooldownKey)) {
-            // First time: start cooldown and exit
-            player.getEntityData().setLong(tpCooldownKey, player.world.getTotalWorldTime());
-
-        } else {
-            final long now  = player.world.getTotalWorldTime();              // monotonic, never wraps
-            final long last = player.getEntityData().getLong(tpCooldownKey);
-
-            // Still on cooldown? bail
-            if (now < last + 100L) return;
-
-            applyTpDebuffs(player);
-        }
+        applyTpDebuffs(player);
     }
 
     /** Potion Sickness and Surface Teleport right away, and restarts the teleport cooldown */
