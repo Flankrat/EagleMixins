@@ -41,7 +41,7 @@ public class LockedBlockConfig {
     @Config.Name("Locks")
     public String[] locks = {
             "brutal_arachnid | Arachnid | #9d9684 | \u00a77Pulled from the remains of the great spider. | \u00a77Thick webbing is woven through the keyhole.\\n\u00a77Only one who has faced the brood may pass. | 0.5 | minecraft:air | minecraft:air | lycanitesmobs:ashenstonepolished",
-            "brutal_gatekeeper | Gatekeeper | #865ec9 | \u00a77Torn from the storm dragon that guarded the way. | \u00a77Static crackles across the keyhole.\\n\u00a77The Gatekeeper holds the key to what lies beyond. | 0.1 | minecraft:air | minecraft:air | quark:crystal:8",
+            "brutal_gatekeeper | Gatekeeper | #865ec9 | \u00a77Torn from the storm dragon that guarded the way. | \u00a77Static crackles across the keyhole.\\n\u00a77The Gatekeeper holds the key to what lies beyond. | 0.1 | minecraft:air | minecraft:air | quark:crystal@8",
             "brutal_sarevok | Sarevok's | #b7812c | \u00a77Taken from Sarevok's fallen body. | \u00a77Deep sword gouges scar the stone around the keyhole.\\n\u00a77The horned one does not give up his key willingly. | 0.5 | minecraft:air | minecraft:air | minecraft:air",
             "brutal_horror | Parasitic | #6a9834 | \u00a77Cut free from the horror's writhing mass. | \u00a77Fleshy growths pulse around the keyhole.\\n\u00a77Whatever opens this was grown, not forged. | 0.5 | minecraft:air | minecraft:air | minecraft:air",
             "brutal_necrotic_golem | Necrotic | #31352c | \u00a77Pried from the golem's crumbling core. | \u00a77The stone here is grey and dead, and smells of the grave.\\n\u00a77Its key lies within a heart of rotting stone. | 0.5 | minecraft:air | minecraft:air | minecraft:air",
