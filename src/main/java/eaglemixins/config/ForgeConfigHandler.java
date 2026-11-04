@@ -5,6 +5,7 @@ import eaglemixins.client.particles.ParticleRule;
 import eaglemixins.client.particles.ParticlesClientRunner;
 import eaglemixins.client.particles.ParticlesRuleParser;
 import eaglemixins.config.folders.*;
+import eaglemixins.handlers.BaublePotionImmunityHandler;
 import eaglemixins.util.PotionLevelCaps;
 import meldexun.betterconfig.api.BetterConfig;
 import meldexun.betterconfig.api.BetterConfigManager;
@@ -302,9 +303,30 @@ public class ForgeConfigHandler {
 			potionLevelCaps.put(new ResourceLocation("potioncore:magic_focus"), 2);
 		}
 
+		@Config.Comment({
+				"Baubles that make the wearer immune to the listed potion effects.",
+				"Blocked effects are never applied: they are denied before being added, so they never tick, not even once.",
+				"Instant applications (drinking, splash, lingering) are blocked through the \"Prevent Abyssal Teleportation (Vanilla/Trinkets)\" mixin toggle.",
+				"Requires Baubles.",
+				"Format: <bauble item id> { <potion id> ... }"
+		})
+		@Config.Name("Bauble Potion Immunities")
+		public Map<ResourceLocation, ArrayList<String>> baublePotionImmunities = new LinkedHashMap<>();
+		private void initBaublePotionImmunities(){
+			baublePotionImmunities.put(new ResourceLocation("quark:witch_hat"), new ArrayList<>(Arrays.asList(
+					"potioncore:spin",
+					"potioncore:disorganization",
+					"potioncore:perplexity")));
+		}
+
+		@Config.Comment("If true, blocked effects that are already active when the bauble is equipped are removed right away instead of running out.")
+		@Config.Name("Bauble Immunity Removes Active Effects")
+		public boolean baubleImmunityRemovesActiveEffects = true;
+
 		public ServerConfig(){
 			initBiomeDictTagList();
 			initPotionLevelCaps();
+			initBaublePotionImmunities();
 		}
 	}
 
@@ -366,6 +388,7 @@ public class ForgeConfigHandler {
 				safespawn.reset();
 				lightning.reset();
 				PotionLevelCaps.refreshConfig();
+				BaublePotionImmunityHandler.refreshConfig();
 				loadParticleRulesFromConfig();
 			}
 		}

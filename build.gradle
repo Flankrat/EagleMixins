@@ -100,6 +100,7 @@ dependencies {
     compileOnly fg.deobf("curse.maven:icenfire-${iceandfire_version}")
     compileOnly fg.deobf("curse.maven:tool-belt-${toolbelt_version}")
     compileOnly fg.deobf("curse.maven:set-bonus-${setbonus_version}")
+    compileOnly fg.deobf("curse.maven:baubles-${baubles_version}")
     compileOnly fg.deobf("curse.maven:fantastic-lib-${fantasticlib_version}")
     compileOnly fg.deobf("curse.maven:dynamicsurroundings-${dynamicsurroundings_version}")
     compileOnly fg.deobf("curse.maven:forgotten-items-${forgottenitems_version}")
