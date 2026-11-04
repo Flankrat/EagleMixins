@@ -1,5 +1,6 @@
 package eaglemixins.client.render;
 
+import eaglemixins.compat.ModLoadedUtil;
 import eaglemixins.config.folders.PlayerBossConfig.BossModel;
 import eaglemixins.entity.EntityPlayerBoss;
 import net.minecraft.client.model.ModelBiped;
@@ -85,7 +86,7 @@ public class RenderPlayerBoss extends RenderLivingBase<EntityPlayerBoss> {
         addLayer(new LayerArrow(this));
         addLayer(head);
         addLayer(new LayerStrayClothing());
-        addLayer(new LayerWings());
+        if (ModLoadedUtil.xat.isLoaded()) addLayer(new LayerWings()); // LayerWings touches xat classes
     }
 
     private ModelBiped getModel(EntityPlayerBoss entity) {
@@ -200,9 +201,9 @@ public class RenderPlayerBoss extends RenderLivingBase<EntityPlayerBoss> {
             NBTTagCompound render = entity.getRenderData();
             boolean slim = render.getBoolean("Slim");
             if (render.getBoolean("Wings")) {
-                XatRaceRenderCompat.renderWings(entity, RenderPlayerBoss.this, slim, partialTicks, scale, render.getInteger("WingPrimary"), render.getInteger("WingSecondary"));
+                XatDragonRenderCompat.renderWings(entity, RenderPlayerBoss.this, slim, partialTicks, scale, render.getInteger("WingPrimary"), render.getInteger("WingSecondary"));
             }
-            XatRaceRenderCompat.renderHorns(entity, RenderPlayerBoss.this, slim, partialTicks, scale, render.getString("Horns"), render.getInteger("HornColor"));
+            XatDragonRenderCompat.renderHorns(entity, RenderPlayerBoss.this, slim, partialTicks, scale, render.getString("Horns"), render.getInteger("HornColor"));
         }
 
         @Override
