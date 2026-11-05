@@ -138,7 +138,7 @@ public class MixinToggleConfig {
 
     @Config.Comment({
             "Removes the effects listed in Server Options > Bauble Potion Immunities that are already active",
-            "when the bauble is put on, from the bauble's own onWornTick (Baubles API) instead of letting them run out."
+            "when the bauble is put on, from the bauble's onEquipped (Baubles API) instead of letting them run out."
     })
     @Config.Name("Bauble Potion Immunity Removes Active Effects (Baubles)")
     @Config.RequiresMcRestart

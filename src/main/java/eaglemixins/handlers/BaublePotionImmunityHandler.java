@@ -37,7 +37,7 @@ import java.util.Set;
  *    the mixins in eaglemixins.mixin.vanilla.baublepotionimmunity (@WrapWithCondition on
  *    Potion.affectEntity), behind the "Bauble Potion Immunity For Instant Potions" mixin toggle.
  *  - Effects that were already active when the bauble was put on are removed from the bauble's
- *    IBauble.onWornTick (Baubles API), through EventHandlerEntityMixin_BaublePotionImmunity
+ *    IBauble.onEquipped (Baubles API), through SlotBaubleMixin_BaublePotionImmunity
  *    ("Bauble Potion Immunity Removes Active Effects (Baubles)" mixin toggle).
  *
  * Registered only when Baubles is loaded. Baubles classes are only touched inside BaublesAccess,
@@ -62,11 +62,10 @@ public class BaublePotionImmunityHandler {
     }
 
     /**
-     * Called by Baubles for every worn bauble, each player tick (after the IBauble's own onWornTick).
-     * Removes the effects this bauble blocks if they are active, e.g. because they were already
-     * running when the bauble was put on.
+     * Called when a bauble is put into a bauble slot (after the IBauble's own onEquipped).
+     * Removes the effects this bauble blocks that were already active.
      */
-    public static void onBaubleWornTick(ItemStack stack, EntityLivingBase wearer) {
+    public static void onBaubleEquipped(ItemStack stack, EntityLivingBase wearer) {
         if (!BAUBLES_LOADED || stack.isEmpty() || wearer.world.isRemote) return;
 
         Set<Potion> blocked = getImmunities().get(stack.getItem());

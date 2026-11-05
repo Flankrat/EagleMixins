@@ -6,6 +6,6 @@
   "target": "@env(DEFAULT)",
   "minVersion": "0.8",
   "mixins": [
-    "EventHandlerEntityMixin_BaublePotionImmunity"
+    "SlotBaubleMixin_BaublePotionImmunity"
   ]
 }
