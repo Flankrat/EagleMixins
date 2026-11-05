@@ -136,6 +136,16 @@ public class MixinToggleConfig {
     @MixinConfig.CompatHandling(modid = "baubles", desired = true, reason = "Requires mod to properly function")
     public boolean baublePotionImmunityInstant = true;
 
+    @Config.Comment({
+            "Removes the effects listed in Server Options > Bauble Potion Immunities that are already active",
+            "when the bauble is put on, from the bauble's own onWornTick (Baubles API) instead of letting them run out."
+    })
+    @Config.Name("Bauble Potion Immunity Removes Active Effects (Baubles)")
+    @Config.RequiresMcRestart
+    @MixinConfig.MixinToggle(lateMixin = "mixins.eaglemixins.baubles.baublepotionimmunity.json", defaultValue = true)
+    @MixinConfig.CompatHandling(modid = "baubles", desired = true, reason = "Requires mod to properly function")
+    public boolean baublePotionImmunityActive = true;
+
     @Config.Comment("Compared to SRPs system, this will only count parasite kills, distribute the killed mobs HP over the equipped SRP living gear and also evolve living bows and living armor.")
     @Config.Name("Custom Living Gear Evolution (SRP)")
     @Config.RequiresMcRestart

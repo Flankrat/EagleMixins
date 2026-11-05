@@ -15,7 +15,6 @@ import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.eventhandler.Event;
 import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import net.minecraftforge.fml.common.gameevent.TickEvent;
 import net.minecraftforge.fml.common.registry.ForgeRegistries;
 
 import java.util.ArrayList;
@@ -37,8 +36,9 @@ import java.util.Set;
  *  - Instant applications (drinking, splash, lingering) skip that event; they are covered by
  *    the mixins in eaglemixins.mixin.vanilla.baublepotionimmunity (@WrapWithCondition on
  *    Potion.affectEntity), behind the "Bauble Potion Immunity For Instant Potions" mixin toggle.
- *  - Effects that were already active when the bauble was put on are removed at the start of
- *    the player tick (before updatePotionEffects), if "Bauble Immunity Removes Active Effects" is on.
+ *  - Effects that were already active when the bauble was put on are removed from the bauble's
+ *    IBauble.onWornTick (Baubles API), through EventHandlerEntityMixin_BaublePotionImmunity
+ *    ("Bauble Potion Immunity Removes Active Effects (Baubles)" mixin toggle).
  *
  * Registered only when Baubles is loaded. Baubles classes are only touched inside BaublesAccess,
  * so isImmune(...) is also safe to call from the mixins without Baubles installed.
@@ -61,20 +61,19 @@ public class BaublePotionImmunityHandler {
         }
     }
 
-    /** START phase runs before EntityLivingBase.updatePotionEffects, so a removed effect never ticks again. */
-    @SubscribeEvent
-    public static void onPlayerTick(TickEvent.PlayerTickEvent event) {
-        if (event.phase != TickEvent.Phase.START || event.player.world.isRemote) return;
-        if (!ForgeConfigHandler.server.baubleImmunityRemovesActiveEffects) return;
+    /**
+     * Called by Baubles for every worn bauble, each player tick (after the IBauble's own onWornTick).
+     * Removes the effects this bauble blocks if they are active, e.g. because they were already
+     * running when the bauble was put on.
+     */
+    public static void onBaubleWornTick(ItemStack stack, EntityLivingBase wearer) {
+        if (!BAUBLES_LOADED || stack.isEmpty() || wearer.world.isRemote) return;
 
-        getImmunities();
-        if (allBlockedPotions.isEmpty()) return;
+        Set<Potion> blocked = getImmunities().get(stack.getItem());
+        if (blocked == null) return;
 
-        EntityPlayer player = event.player;
-        for (Potion potion : allBlockedPotions) {
-            if (player.isPotionActive(potion) && isImmune(player, potion)) {
-                player.removePotionEffect(potion);
-            }
+        for (Potion potion : blocked) {
+            if (wearer.isPotionActive(potion)) wearer.removePotionEffect(potion);
         }
     }
 

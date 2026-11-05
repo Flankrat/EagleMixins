@@ -307,6 +307,7 @@ public class ForgeConfigHandler {
 				"Baubles that make the wearer immune to the listed potion effects.",
 				"Blocked effects are never applied: they are denied before being added, so they never tick, not even once.",
 				"Instant applications (drinking, splash, lingering) require the \"Bauble Potion Immunity For Instant Potions (Vanilla)\" mixin toggle.",
+				"Effects already active when the bauble is put on are removed with the \"Bauble Potion Immunity Removes Active Effects (Baubles)\" mixin toggle.",
 				"Requires Baubles.",
 				"Format: <bauble item id> { <potion id> ... }"
 		})
@@ -318,10 +319,6 @@ public class ForgeConfigHandler {
 					"potioncore:disorganization",
 					"potioncore:perplexity")));
 		}
-
-		@Config.Comment("If true, blocked effects that are already active when the bauble is equipped are removed right away instead of running out.")
-		@Config.Name("Bauble Immunity Removes Active Effects")
-		public boolean baubleImmunityRemovesActiveEffects = true;
 
 		public ServerConfig(){
 			initBiomeDictTagList();
