@@ -127,16 +127,6 @@ public class MixinToggleConfig {
     public boolean punishAbyssalTeleportation = true;
 
     @Config.Comment({
-            "Also blocks the effects listed in Server Options > Bauble Potion Immunities when they are applied instantly",
-            "(drinking, splash and lingering potions). Without this, only non-instant applications are blocked."
-    })
-    @Config.Name("Bauble Potion Immunity For Instant Potions (Vanilla)")
-    @Config.RequiresMcRestart
-    @MixinConfig.MixinToggle(earlyMixin = "mixins.eaglemixins.vanilla.baublepotionimmunity.json", defaultValue = true)
-    @MixinConfig.CompatHandling(modid = "baubles", desired = true, reason = "Requires mod to properly function")
-    public boolean baublePotionImmunityInstant = true;
-
-    @Config.Comment({
             "Removes the effects listed in Server Options > Bauble Potion Immunities that are already active",
             "when the bauble is put on, from the bauble's onEquipped (Baubles API) instead of letting them run out."
     })

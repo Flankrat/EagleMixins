@@ -33,15 +33,13 @@ import java.util.Set;
  *  - addPotionEffect (tipped arrows, mob/weapon effects, commands, ...) is denied through
  *    PotionApplicableEvent, which Forge fires before the effect is added, so it never ticks
  *    and is never synced to the client.
- *  - Instant applications (drinking, splash, lingering) skip that event; they are covered by
- *    the mixins in eaglemixins.mixin.vanilla.baublepotionimmunity (@WrapWithCondition on
- *    Potion.affectEntity), behind the "Bauble Potion Immunity For Instant Potions" mixin toggle.
+ *  - Instant applications (drinking, splash, lingering) call Potion.affectEntity directly and
+ *    skip that event, so they are not blocked here.
  *  - Effects that were already active when the bauble was put on are removed from the bauble's
  *    IBauble.onEquipped (Baubles API), through SlotBaubleMixin_BaublePotionImmunity
  *    ("Bauble Potion Immunity Removes Active Effects (Baubles)" mixin toggle).
  *
- * Registered only when Baubles is loaded. Baubles classes are only touched inside BaublesAccess,
- * so isImmune(...) is also safe to call from the mixins without Baubles installed.
+ * Registered only when Baubles is loaded. Baubles classes are only touched inside BaublesAccess.
  */
 public class BaublePotionImmunityHandler {
 
