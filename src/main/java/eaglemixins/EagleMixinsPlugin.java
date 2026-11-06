@@ -23,6 +23,9 @@ public class EagleMixinsPlugin implements IFMLLoadingPlugin {
 		FermiumRegistryAPI.enqueueMixin(true, "mixins.eaglemixins.iceandfire.pixievillageblacklist.json", () -> Loader.isModLoaded("iceandfire"));
 		FermiumRegistryAPI.enqueueMixin(true, "mixins.eaglemixins.lycanitesmobs.disablegeneration.json", () -> Loader.isModLoaded("lycanitesmobs"));
 
+		// Ice and Fire's dread stone stairs/slabs pick up whichever mod is active as their namespace (nuclearcraft in Dregora), always register them as iceandfire
+		FermiumRegistryAPI.enqueueMixin(true, "mixins.eaglemixins.iceandfire.dreadregistrynames.json", () -> Loader.isModLoaded("iceandfire"));
+
 		// Decouples the OTG overworld preset from level-name, controlled by the "OTG Overworld Preset" server option
 		FermiumRegistryAPI.enqueueMixin(true, "mixins.eaglemixins.otg.overworldpreset.json", () -> Loader.isModLoaded("openterraingenerator"));
 

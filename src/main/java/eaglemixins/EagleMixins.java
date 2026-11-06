@@ -61,6 +61,7 @@ public class EagleMixins {
         if(event.getSide() == Side.CLIENT) RenderingRegistry.registerEntityRenderingHandler(EntityLightningBolt.class, RenderWastelandLightning::new);
 
         MinecraftForge.EVENT_BUS.register(ProjectileImmunityHandler.class);
+        registerIfModsPresent(new String[]{"iceandfire"}, DreadStoneRemapHandler.class);
         registerIfModsPresent(new String[]{"firstaid"}, FirstAidRadiationHandler.class);
         registerIfModsPresent(new String[]{"nuclearcraft"}, ContainerNBTRadHandler.class);
         registerIfModsPresent(new String[]{"nuclearcraft"}, ItemRadCapAttacher.class);
